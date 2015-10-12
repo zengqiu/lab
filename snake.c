@@ -69,25 +69,25 @@ void init_frame()
     printf("退出：Esc");
 
     //打印上横框
-    for(i = 0; i < 2 * WIDTH; i += 2)
+    for (i = 0; i < 2 * WIDTH; i += 2)
     {
         goto_pos(hOut, INIT_X + i, INIT_Y);
         printf("*");
     }
     //打印下横框
-    for(i = 0; i < 2 * WIDTH; i += 2)
+    for (i = 0; i < 2 * WIDTH; i += 2)
     {
         goto_pos(hOut, INIT_X + i, INIT_Y + HEIGHT - 1);
         printf("*");
     }
     //打印左竖框
-    for(i = 1; i < 20; i++)
+    for (i = 1; i < 20; i++)
     {
         goto_pos(hOut, INIT_X, INIT_Y + i);
         printf("*");
     }
     //打印右竖框
-    for(i = 1; i < 20; i++)
+    for (i = 1; i < 20; i++)
     {
         goto_pos(hOut, INIT_X + 2 * WIDTH - 2, INIT_Y + i);
         printf("*");
@@ -107,10 +107,10 @@ pSNAKE init_snake()
     }
 
     //蛇不能在边框上
-    pHead -> x = (rand() % (WIDTH - 2)) * 2 + 2;
-    pHead -> y = rand() % (HEIGHT - 2) + 1;
-    pHead -> next = NULL;
-    pHead -> pre = NULL;
+    pHead->x = (rand() % (WIDTH - 2)) * 2 + 2;
+    pHead->y = rand() % (HEIGHT - 2) + 1;
+    pHead->next = NULL;
+    pHead->pre = NULL;
 
     return pHead;
 }
@@ -130,8 +130,8 @@ FOOD init_food(HANDLE hOut, pSNAKE pHead)
         //如果食物在蛇身上
         while (pSnake != NULL)
         {
-            if (food.x == pSnake -> x && food.y == pSnake -> y) break;
-            pSnake = pSnake -> next;
+            if (food.x == pSnake->x && food.y == pSnake->y) break;
+            pSnake = pSnake->next;
         }
         
         if (pSnake == NULL) break;
@@ -147,7 +147,7 @@ FOOD init_food(HANDLE hOut, pSNAKE pHead)
 void eat_food(HANDLE hOut, pSNAKE pHead, pFOOD pFood)
 {
     //如果蛇头的位置与食物的位置相同
-    if (pHead -> x == pFood -> x && pHead -> y == pFood -> y)
+    if (pHead->x == pFood->x && pHead->y == pFood->y)
     {
         pSNAKE pEnd = (pSNAKE)malloc(sizeof(SNAKE));
         pSNAKE pSnake = pHead;
@@ -159,14 +159,14 @@ void eat_food(HANDLE hOut, pSNAKE pHead, pFOOD pFood)
         }
 
         //指向蛇尾
-        while (pSnake -> next != NULL) pSnake = pSnake -> next;
+        while (pSnake->next != NULL) pSnake = pSnake->next;
 
         //在蛇尾插入新节点
-        pEnd -> pre = pSnake;
-        pEnd -> next = NULL;
-        pEnd -> x = pSnake -> x;
-        pEnd -> y = pSnake -> y;
-        pSnake -> next = pEnd;
+        pEnd->pre = pSnake;
+        pEnd->next = NULL;
+        pEnd->x = pSnake->x;
+        pEnd->y = pSnake->y;
+        pSnake->next = pEnd;
     }
 }
 
@@ -197,46 +197,46 @@ int move_snake(HANDLE hOut, pSNAKE pHead, pFOOD pFood, char c)
     int end_x = 0, end_y = 0, pre_x = 1, pre_y = 1;
 
     //指向蛇尾
-    while (pSnake -> next != NULL) pSnake = pSnake -> next;
+    while (pSnake->next != NULL) pSnake = pSnake->next;
     
     //如果最后一个节点不是头节点
     if (pSnake != pHead)
     {
-        end_x = pSnake -> x;
-        end_y = pSnake -> y;
-        pre_x = pSnake -> pre -> x;
-        pre_y = pSnake -> pre -> y;
+        end_x = pSnake->x;
+        end_y = pSnake->y;
+        pre_x = pSnake->pre->x;
+        pre_y = pSnake->pre->y;
     }
     
     //清除蛇尾
-    goto_pos(hOut, pSnake -> x, pSnake -> y);
+    goto_pos(hOut, pSnake->x, pSnake->y);
     printf("  ");
 
     //从蛇尾向蛇头前进
     while (pSnake != pHead)
     {
-        pSnake -> x = pSnake -> pre -> x;
-        pSnake -> y = pSnake -> pre -> y;
-        pSnake = pSnake -> pre;
+        pSnake->x = pSnake->pre->x;
+        pSnake->y = pSnake->pre->y;
+        pSnake = pSnake->pre;
     }
 
-    switch(c)
+    switch (c)
     {
         case 72:    //向上移动
-            pHead -> y -= 1;
-            if (pHead -> y <= 0) pHead -> y += (HEIGHT - 2);
+            pHead->y -= 1;
+            if (pHead->y <= 0) pHead->y += (HEIGHT - 2);
             break;
         case 80:    //向下移动
-            pHead -> y += 1;
-            if (pHead -> y >= HEIGHT - 1) pHead -> y -= (HEIGHT - 2);
+            pHead->y += 1;
+            if (pHead->y >= HEIGHT - 1) pHead->y -= (HEIGHT - 2);
             break;
         case 75:    //向左移动
-            pHead -> x -= 2;
-            if (pHead -> x <= 0) pHead -> x += (WIDTH * 2 - 4);
+            pHead->x -= 2;
+            if (pHead->x <= 0) pHead->x += (WIDTH * 2 - 4);
             break;
         case 77:    //向右移动
-            pHead -> x += 2;
-            if (pHead -> x >= WIDTH * 2 - 2) pHead -> x -= (WIDTH * 2 -4);
+            pHead->x += 2;
+            if (pHead->x >= WIDTH * 2 - 2) pHead->x -= (WIDTH * 2 -4);
             break;
     }
     
@@ -247,11 +247,11 @@ int move_snake(HANDLE hOut, pSNAKE pHead, pFOOD pFood, char c)
     }
 
     //当蛇头碰到蛇身时游戏结束
-    pSnake = pHead -> next;
+    pSnake = pHead->next;
     while (pSnake != NULL)
     {
-        if (pSnake -> x == pHead  -> x && pSnake -> y == pHead -> y) game_over = 1;
-        pSnake = pSnake -> next;
+        if (pSnake->x == pHead->x && pSnake->y == pHead->y) game_over = 1;
+        pSnake = pSnake->next;
     }
 
     return game_over;
@@ -263,10 +263,10 @@ void print_snake(HANDLE hOut, pSNAKE pHead)
     pSNAKE pSnake = pHead;
     while (pSnake != NULL)
     {
-        goto_pos(hOut, pSnake -> x, pSnake -> y);
+        goto_pos(hOut, pSnake->x, pSnake->y);
         if (pSnake == pHead) printf("■");
         else printf("□");
-        pSnake = pSnake -> next;
+        pSnake = pSnake->next;
     }
 }
 
@@ -277,10 +277,10 @@ void free_memory(pSNAKE *pHead)
 
     while (*pHead != NULL)
     {
-        pSnake = (*pHead) -> next;
+        pSnake = (*pHead)->next;
         if (pSnake != NULL)
         {
-            pSnake -> pre = NULL;
+            pSnake->pre = NULL;
         }
         pDelete = *pHead;
         free(pDelete);
